@@ -14,18 +14,21 @@ function App() {
 		const form = event.target;
 		const name = form.name.value;
 		const email = form.email.value;
+		const user = { name, email };
 		fetch("http://localhost:5000/users", {
-			method: "post",
+			method: "POST",
 			headers: {
-				"content-type": "application/json",
+				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				name: name,
-				email: email,
-			}),
+			body: JSON.stringify(user),
 		})
 			.then((res) => res.json())
-			.then((data) => setUser(data));
+			.then((data) => {
+				const newUser = [...user, data];
+				setUser[newUser];
+				form.reset();
+			})
+			.catch((err) => console.log(err));
 	};
 	return (
 		<>
